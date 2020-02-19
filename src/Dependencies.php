@@ -19,7 +19,12 @@ $injector->define('Http\HttpRequest', [
 $injector->alias('Http\Response', 'Http\HttpResponse');
 $injector->share('Http\HttpResponse');
 
-$injector->alias('App\Template\Renderer', 'App\Template\MustacheRenderer');
+$injector->alias('App\Template\Renderer', 'App\Template\TwigRenderer');
+$injector->define('Twig\Loader\FilesystemLoader', [
+    ':paths' => dirname(__DIR__) . '/templates'
+]);
+
+$injector->alias('Twig\Loader\LoaderInterface', 'Twig\Loader\FilesystemLoader');
 $injector->define('Mustache_Engine', [
     ':options' => [
         'loader' => new Mustache_Loader_FilesystemLoader(dirname(__DIR__) . '/templates', [
@@ -27,6 +32,11 @@ $injector->define('Mustache_Engine', [
         ])
     ]
 ]);
+
+$injector->alias('App\Template\FrontendRenderer', 'App\Template\FrontendTwigRenderer');
+
+$injector->alias('App\Menu\MenuReader', 'App\Menu\ArrayMenuReader');
+$injector->share('App\Menu\ArrayMenuReader');
 
 $injector->define('App\Page\FilePageReader', [
     ':pageFolder' => __DIR__ . '/../pages'
