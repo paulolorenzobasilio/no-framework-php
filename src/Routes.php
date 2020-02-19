@@ -3,5 +3,6 @@
 namespace App;
 
 return [
-    ['GET', '/', ['App\Controllers\Homepage', 'show']]
+    ['GET', '/', ['App\Controllers\Homepage', 'show']],
+    ['GET', '/{slug}', ['App\Controllers\Page', 'show']]
 ];
